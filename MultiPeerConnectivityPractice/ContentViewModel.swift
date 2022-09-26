@@ -72,7 +72,7 @@ class ContentViewModel: NSObject, ObservableObject {
         if session.connectedPeers.count > 0 {
             if let data = String("play").data(using: .utf8) {
                 do {
-                    try session.send(data, toPeers: session.connectedPeers, with: .reliable)
+                    try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
                 } catch let error as NSError {
                     print(error.localizedDescription)
                 }
