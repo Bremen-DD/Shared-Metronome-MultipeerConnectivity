@@ -10,6 +10,9 @@ import MultipeerConnectivity
 
 class ContentViewModel: NSObject, ObservableObject {
 
+    @Published var number = 0
+    @Published var numberLabel = "0"
+
     var peerId: MCPeerID
     var session: MCSession
     var nearbyServiceAdvertiser: MCNearbyServiceAdvertiser?
@@ -21,27 +24,53 @@ class ContentViewModel: NSObject, ObservableObject {
         session.delegate = self
     }
 
-    func advertise() {
+    func startHosting() {
         nearbyServiceAdvertiser = MCNearbyServiceAdvertiser(peer: peerId, discoveryInfo: nil, serviceType: "practice")
         nearbyServiceAdvertiser?.delegate = self
         nearbyServiceAdvertiser?.startAdvertisingPeer()
     }
 
-    func invite() {
+    func joinSession() {
         let browser = MCBrowserViewController(serviceType: "practice", session: session)
         browser.delegate = self
         UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
+    }
+
+    func sendData() {
+
+        self.number += 1
+        if session.connectedPeers.count > 0 {
+            if let textData = String(self.number).data(using: .utf8) {
+                do {
+                    try session.send(textData, toPeers: session.connectedPeers, with: .reliable)
+                } catch let error as NSError {
+                    print(error.localizedDescription)
+                }
+            }
+        }
     }
 
 }
 
 extension ContentViewModel: MCSessionDelegate {
     func session(_ session: MCSession, peer peerID: MCPeerID, didChange state: MCSessionState) {
-
+        print("\(peerId) state: \(state)")
+        switch state {
+        case .notConnected:
+            print("✅ not connected")
+        case .connecting:
+            print("✅ connecting")
+        case .connected:
+            print("✅ connected")
+        }
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-
+        if let text = String(data: data, encoding: .utf8) {
+            DispatchQueue.main.async {
+                self.numberLabel = text
+            }
+        }
     }
 
     func session(_ session: MCSession, didReceive stream: InputStream, withName streamName: String, fromPeer peerID: MCPeerID) {

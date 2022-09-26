@@ -17,12 +17,18 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Button("Advertise") {
-                viewModel.advertise()
+            Text(viewModel.numberLabel)
+                .font(.largeTitle)
+            Button("Send") {
+                viewModel.sendData()
             }
             .font(.largeTitle)
-            Button("Invite") {
-                viewModel.invite()
+            Button("Hosting") {
+                viewModel.startHosting()
+            }
+            .font(.largeTitle)
+            Button("Join") {
+                viewModel.joinSession()
             }
             .font(.largeTitle)
         }
