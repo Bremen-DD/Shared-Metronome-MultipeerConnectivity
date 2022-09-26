@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C66EECC928E1E58100A34AED /* click.wav in Resources */ = {isa = PBXBuildFile; fileRef = C66EECC828E1E58100A34AED /* click.wav */; };
 		C6B4D24F28E1CE0700CFE318 /* MultiPeerConnectivityPracticeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B4D24E28E1CE0700CFE318 /* MultiPeerConnectivityPracticeApp.swift */; };
 		C6B4D25128E1CE0700CFE318 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6B4D25028E1CE0700CFE318 /* ContentView.swift */; };
 		C6B4D25328E1CE0700CFE318 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6B4D25228E1CE0700CFE318 /* Assets.xcassets */; };
@@ -15,6 +16,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C66EECC628E1DE2000A34AED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C66EECC828E1E58100A34AED /* click.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = click.wav; sourceTree = "<group>"; };
 		C6B4D24B28E1CE0700CFE318 /* MultiPeerConnectivityPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiPeerConnectivityPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6B4D24E28E1CE0700CFE318 /* MultiPeerConnectivityPracticeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultiPeerConnectivityPracticeApp.swift; sourceTree = "<group>"; };
 		C6B4D25028E1CE0700CFE318 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -53,6 +56,8 @@
 		C6B4D24D28E1CE0700CFE318 /* MultiPeerConnectivityPractice */ = {
 			isa = PBXGroup;
 			children = (
+				C66EECC628E1DE2000A34AED /* Info.plist */,
+				C66EECC828E1E58100A34AED /* click.wav */,
 				C6B4D24E28E1CE0700CFE318 /* MultiPeerConnectivityPracticeApp.swift */,
 				C6B4D25028E1CE0700CFE318 /* ContentView.swift */,
 				C6B4D25C28E1CE2400CFE318 /* ContentViewModel.swift */,
@@ -128,6 +133,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C66EECC928E1E58100A34AED /* click.wav in Resources */,
 				C6B4D25628E1CE0700CFE318 /* Preview Assets.xcassets in Resources */,
 				C6B4D25328E1CE0700CFE318 /* Assets.xcassets in Resources */,
 			);
@@ -274,6 +280,7 @@
 				DEVELOPMENT_TEAM = 76AJ433CP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiPeerConnectivityPractice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -303,6 +310,7 @@
 				DEVELOPMENT_TEAM = 76AJ433CP5;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = MultiPeerConnectivityPractice/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

@@ -7,11 +7,13 @@
 
 import SwiftUI
 import MultipeerConnectivity
+import AVFoundation
 
 class ContentViewModel: NSObject, ObservableObject {
 
     @Published var number = 0
     @Published var numberLabel = "0"
+    var audioPlayer: AVAudioPlayer?
 
     var peerId: MCPeerID
     var session: MCSession
@@ -36,20 +38,47 @@ class ContentViewModel: NSObject, ObservableObject {
         UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
     }
 
-    func sendData() {
+//    func sendData() {
+//
+//        self.number += 1
+//        if session.connectedPeers.count > 0 {
+//            if let textData = String(self.number).data(using: .utf8) {
+//                do {
+//                    try session.send(textData, toPeers: session.connectedPeers, with: .reliable)
+//                } catch let error as NSError {
+//                    print(error.localizedDescription)
+//                }
+//            }
+//        }
+//    }
 
-        self.number += 1
+    func didTappedClickButton() {
+        playClick()
+        sendClickSign()
+    }
+
+    func playClick() {
+        if let path =  Bundle.main.path(forResource: "click", ofType: ".wav") {
+            do {
+                audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
+                audioPlayer?.play()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
+    }
+
+    func sendClickSign() {
         if session.connectedPeers.count > 0 {
-            if let textData = String(self.number).data(using: .utf8) {
+            if let data = String("play").data(using: .utf8) {
                 do {
-                    try session.send(textData, toPeers: session.connectedPeers, with: .reliable)
+                    try session.send(data, toPeers: session.connectedPeers, with: .reliable)
                 } catch let error as NSError {
                     print(error.localizedDescription)
                 }
             }
         }
     }
-
 }
 
 extension ContentViewModel: MCSessionDelegate {
@@ -68,7 +97,9 @@ extension ContentViewModel: MCSessionDelegate {
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
         if let text = String(data: data, encoding: .utf8) {
             DispatchQueue.main.async {
-                self.numberLabel = text
+                if text == "play" {
+                    self.playClick()
+                }
             }
         }
     }

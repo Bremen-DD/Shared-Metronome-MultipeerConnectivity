@@ -17,26 +17,23 @@ struct ContentView: View {
 
     var body: some View {
         VStack {
-            Text(viewModel.numberLabel)
-                .font(.largeTitle)
-            Button("Send") {
-                viewModel.sendData()
+//            Text(viewModel.numberLabel)
+//                .font(.largeTitle)
+
+            Button("Click") {
+                viewModel.didTappedClickButton()
             }
             .font(.largeTitle)
+
             Button("Hosting") {
                 viewModel.startHosting()
             }
             .font(.largeTitle)
+
             Button("Join") {
                 viewModel.joinSession()
             }
             .font(.largeTitle)
         }
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
