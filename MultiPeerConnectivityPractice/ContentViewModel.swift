@@ -17,14 +17,20 @@ class ContentViewModel: NSObject, ObservableObject {
     override init() {
         peerId = MCPeerID(displayName: UIDevice.current.name)
         session = MCSession(peer: peerId, securityIdentity: nil, encryptionPreference: .required)
+        super.init()
+        session.delegate = self
     }
 
     func advertise() {
-
+        nearbyServiceAdvertiser = MCNearbyServiceAdvertiser(peer: peerId, discoveryInfo: nil, serviceType: "practice")
+        nearbyServiceAdvertiser?.delegate = self
+        nearbyServiceAdvertiser?.startAdvertisingPeer()
     }
 
     func invite() {
-        
+        let browser = MCBrowserViewController(serviceType: "practice", session: session)
+        browser.delegate = self
+        UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
     }
 
 }
