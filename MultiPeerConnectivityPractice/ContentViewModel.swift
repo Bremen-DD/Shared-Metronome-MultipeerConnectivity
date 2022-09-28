@@ -11,13 +11,12 @@ import AVFoundation
 
 class ContentViewModel: NSObject, ObservableObject {
 
-    @Published var number = 0
-    @Published var numberLabel = "0"
     var audioPlayer: AVAudioPlayer?
 
     var peerId: MCPeerID
     var session: MCSession
     var nearbyServiceAdvertiser: MCNearbyServiceAdvertiser?
+    var queSignLog: [String:String] = [:]
 
     override init() {
         peerId = MCPeerID(displayName: UIDevice.current.name)
@@ -38,27 +37,19 @@ class ContentViewModel: NSObject, ObservableObject {
         UIApplication.shared.windows.first?.rootViewController?.present(browser, animated: true)
     }
 
-//    func sendData() {
-//
-//        self.number += 1
-//        if session.connectedPeers.count > 0 {
-//            if let textData = String(self.number).data(using: .utf8) {
-//                do {
-//                    try session.send(textData, toPeers: session.connectedPeers, with: .reliable)
-//                } catch let error as NSError {
-//                    print(error.localizedDescription)
-//                }
-//            }
-//        }
-//    }
-
     func didTappedClickButton() {
-        playClick()
-        sendClickSign()
+        let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+            guard let self = self else { return }
+            self.sendClickSign()
+        }
+        timer.fire()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            timer.invalidate()
+        }
     }
 
     func playClick() {
-        if let path =  Bundle.main.path(forResource: "click", ofType: ".wav") {
+        if let path = Bundle.main.path(forResource: "click", ofType: ".wav") {
             do {
                 audioPlayer = try AVAudioPlayer(contentsOf: URL(fileURLWithPath: path))
                 audioPlayer?.play()
@@ -72,7 +63,7 @@ class ContentViewModel: NSObject, ObservableObject {
         if session.connectedPeers.count > 0 {
             if let data = String("play").data(using: .utf8) {
                 do {
-                    try session.send(data, toPeers: session.connectedPeers, with: .unreliable)
+                    try session.send(data, toPeers: session.connectedPeers, with: .reliable)
                 } catch let error as NSError {
                     print(error.localizedDescription)
                 }
@@ -95,12 +86,11 @@ extension ContentViewModel: MCSessionDelegate {
     }
 
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        if let text = String(data: data, encoding: .utf8) {
-            DispatchQueue.main.async {
-                if text == "play" {
-                    self.playClick()
-                }
-            }
+        DispatchQueue.main.async {
+            self.playClick()
+//            if let text = String(data: data, encoding: .utf8) {
+//                let current = Date().timeIntervalSince1970
+//            }
         }
     }
 
